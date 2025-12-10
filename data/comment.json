@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "postId": 1,
+    "author": "محمد",
+    "content": "شكراً على هذه البداية الرائعة!",
+    "date": "2024-01-15",
+    "approved": true
+  },
+  {
+    "id": 2,
+    "postId": 1,
+    "author": "أحمد",
+    "content": "أتمنى لكم التوفيق",
+    "date": "2024-01-15",
+    "approved": false
+  }
+]
