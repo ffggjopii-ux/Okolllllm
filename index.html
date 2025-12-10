@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع المحتوى - الرئيسية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-blog"></i> موقع المحتوى</h1>
+            <nav>
+                <a href="index.html" class="active"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="#posts"><i class="fas fa-newspaper"></i> المنشورات</a>
+                <a href="admin.html"><i class="fas fa-user-shield"></i> لوحة التحكم</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2>مرحباً بكم في موقع المحتوى</h2>
+            <p>منصة لنشر المقالات والتفاعل مع القراء</p>
+        </section>
+
+        <section id="posts" class="posts-section">
+            <h2><i class="fas fa-stream"></i> أحدث المنشورات</h2>
+            <div class="posts-grid" id="postsContainer">
+                <!-- المنشورات سيتم تحميلها بواسطة JavaScript -->
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <i class="fas fa-file-alt"></i>
+                <h3 id="postsCount">0</h3>
+                <p>منشور</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-comments"></i>
+                <h3 id="commentsCount">0</h3>
+                <p>تعليق</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>مفتوح</h3>
+                <p>لجميع الزوار</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 موقع المحتوى. جميع الحقوق محفوظة.</p>
+            <p>التعليقات تخضع لموافقة المشرف</p>
+        </div>
+    </footer>
+
+    <!-- Modal لعرض المنشور والتعليقات -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalPostContent"></div>
+            <div class="comments-section">
+                <h3><i class="fas fa-comments"></i> التعليقات</h3>
+                <div id="commentsContainer"></div>
+                <form id="commentForm">
+                    <input type="text" id="commentAuthor" placeholder="اسمك" required>
+                    <textarea id="commentText" placeholder="اكتب تعليقك هنا..." required></textarea>
+                    <button type="submit"><i class="fas fa-paper-plane"></i> إرسال التعليق</button>
+                    <p class="notice">ملاحظة: التعليق ينتظر موافقة المشرف</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

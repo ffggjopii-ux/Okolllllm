@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - المشرف</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-panel {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        .admin-header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .admin-nav button {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .admin-nav button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .admin-nav button.active {
+            background: #3498db;
+        }
+        .admin-section {
+            display: none;
+        }
+        .admin-section.active {
+            display: block;
+        }
+        .pending-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        .comment-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body class="admin-panel">
+    <div class="admin-header">
+        <div class="container">
+            <h1><i class="fas fa-user-shield"></i> لوحة تحكم المشرف</h1>
+            <div class="admin-nav">
+                <button onclick="showSection('posts')" class="active"><i class="fas fa-file-alt"></i> إدارة المنشورات</button>
+                <button onclick="showSection('comments')"><i class="fas fa-comments"></i> إدارة التعليقات <span id="pendingCount" class="pending-badge">0</span></button>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- قسم إدارة المنشورات -->
+        <section id="postsSection" class="admin-section active">
+            <div class="section-header">
+                <h2><i class="fas fa-file-alt"></i> إدارة المنشورات</h2>
+                <button onclick="openPostForm()" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> منشور جديد
+                </button>
+            </div>
+            
+            <div id="postsAdminContainer" class="posts-grid">
+                <!-- المنشورات تظهر هنا -->
+            </div>
+        </section>
+
+        <!-- قسم إدارة التعليقات -->
+        <section id="commentsSection" class="admin-section">
+            <div class="section-header">
+                <h2><i class="fas fa-comments"></i> إدارة التعليقات</h2>
+                <div class="filter">
+                    <button onclick="filterComments('all')" class="active">الكل</button>
+                    <button onclick="filterComments('pending')">بانتظار الموافقة</button>
+                    <button onclick="filterComments('approved')">تمت الموافقة</button>
+                </div>
+            </div>
+            
+            <div id="commentsAdminContainer">
+                <!-- التعليقات تظهر هنا -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal لإضافة/تعديل منشور -->
+    <div id="postFormModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close" onclick="closePostForm()">&times;</span>
+            <h2 id="postFormTitle">منشور جديد</h2>
+            <form id="postForm">
+                <input type="hidden" id="postId">
+                <input type="text" id="postTitle" placeholder="عنوان المنشور" required>
+                <textarea id="postContent" placeholder="محتوى المنشور..." rows="10" required></textarea>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> حفظ
+                    </button>
+                    <button type="button" onclick="closePostForm()" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function showSection(section) {
+            // تحديث الأزرار النشطة
+            document.querySelectorAll('.admin-nav button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // إظهار القسم المطلوب
+            document.querySelectorAll('.admin-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            document.getElementById(section + 'Section').classList.add('active');
+        }
+
+        function openPostForm(post = null) {
+            const modal = document.getElementById('postFormModal');
+            const title = document.getElementById('postFormTitle');
+            const form = document.getElementById('postForm');
+            
+            if (post) {
+                title.textContent = 'تعديل المنشور';
+                document.getElementById('postId').value = post.id;
+                document.getElementById('postTitle').value = post.title;
+                document.getElementById('postContent').value = post.content;
+            } else {
+                title.textContent = 'منشور جديد';
+                form.reset();
+                document.getElementById('postId').value = '';
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function closePostForm() {
+            document.getElementById('postFormModal').style.display = 'none';
+        }
+
+        function filterComments(status) {
+            // سيتم تنفيذها في script.js
+            filterCommentsByStatus(status);
+        }
+
+        // إغلاق المودال عند النقر خارجها
+        window.onclick = function(event) {
+            const modal = document.getElementById('postFormModal');
+            if (event.target == modal) {
+                closePostForm();
+            }
+        }
+
+        // جلب البيانات عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAdminData();
+        });
+    </script>
+</body>
+</html>
